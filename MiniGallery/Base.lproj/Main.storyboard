@@ -18,37 +18,40 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qpE-f8-nT1">
-                                <rect key="frame" x="0.0" y="64" width="375" height="269.5"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qpE-f8-nT1">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="RR7-kT-DPy">
-                                    <size key="itemSize" width="375" height="256.5"/>
+                                    <size key="itemSize" width="375" height="603"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="videoCell" id="XUe-S0-tb0" customClass="VideoCollectionViewCell" customModule="MiniGallery" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="6.5" width="375" height="256.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="256.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="77h-Gp-ujR">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="256.5"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <rect key="frame" x="0.0" y="114" width="375" height="375"/>
+                                                    <color key="backgroundColor" red="0.45085787770000002" green="0.98829740290000001" blue="0.83763033149999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="77h-Gp-ujR" secondAttribute="height" id="TPM-b9-fcM"/>
+                                                        <constraint firstAttribute="width" constant="375" id="iqa-uF-JJT"/>
+                                                    </constraints>
                                                 </view>
                                             </subviews>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="77h-Gp-ujR" firstAttribute="top" secondItem="XUe-S0-tb0" secondAttribute="top" id="3S5-zQ-DKj"/>
-                                            <constraint firstAttribute="bottom" secondItem="77h-Gp-ujR" secondAttribute="bottom" id="Ijp-c7-eJr"/>
-                                            <constraint firstItem="77h-Gp-ujR" firstAttribute="leading" secondItem="XUe-S0-tb0" secondAttribute="leading" id="OJt-rg-dZf"/>
-                                            <constraint firstAttribute="trailing" secondItem="77h-Gp-ujR" secondAttribute="trailing" id="VKz-1s-KtX"/>
+                                            <constraint firstItem="77h-Gp-ujR" firstAttribute="centerY" secondItem="XUe-S0-tb0" secondAttribute="centerY" id="67V-Oa-jh2"/>
+                                            <constraint firstItem="77h-Gp-ujR" firstAttribute="centerX" secondItem="XUe-S0-tb0" secondAttribute="centerX" id="WyS-V5-gTO"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="videoView" destination="77h-Gp-ujR" id="Jcj-L7-1Q1"/>
+                                            <outlet property="videoWidthConstraint" destination="iqa-uF-JJT" id="GLM-vs-Cuh"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -60,10 +63,12 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qpE-f8-nT1" secondAttribute="trailing" id="28j-fG-EBD"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="qpE-f8-nT1" secondAttribute="bottom" id="64e-cd-3dE"/>
                             <constraint firstItem="qpE-f8-nT1" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="EZf-aT-2Xc"/>
+                            <constraint firstItem="qpE-f8-nT1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="NrR-o3-uc8"/>
                             <constraint firstItem="qpE-f8-nT1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="WRZ-Dl-Qgu"/>
-                            <constraint firstItem="qpE-f8-nT1" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="cgD-Jn-gfh"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="qpE-f8-nT1" secondAttribute="bottom" multiplier="2" id="vaW-m4-Y76"/>
+                            <constraint firstItem="qpE-f8-nT1" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="qLP-R4-8gA"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

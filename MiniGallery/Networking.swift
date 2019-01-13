@@ -12,7 +12,7 @@ class Networking {
   
    static let baseURL = URL(string: "http://private-04a55-videoplayer1.apiary-mock.com/pictures")
     
-   static func getGallery(completion : @escaping ([Gallery]?) -> Void) {
+   static func getGallery(completion : @escaping ([GalleryScene]?) -> Void) {
     guard let url = baseURL else {completion(nil);return}
     var request = URLRequest(url: url)
      request.httpBody = nil
@@ -26,7 +26,7 @@ class Networking {
         guard let data = data else {completion(nil);return}
         let jsonDecoder = JSONDecoder()
         do {
-            let galleryData = try jsonDecoder.decode([Gallery].self, from: data)
+            let galleryData = try jsonDecoder.decode([GalleryScene].self, from: data)
             completion(galleryData)
             return
         } catch let err {

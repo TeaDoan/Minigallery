@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Gallery: Codable {
+struct GalleryScene: Codable {
     var id: Int
     var imageUrl: String
     var videoUrl: String

@@ -11,11 +11,11 @@ import AVKit
 import AVFoundation
 
 class VideoCollectionViewCell: UICollectionViewCell {
-    var url =  [String]()
-    
-    var video : Gallery?
+
+    var video: GalleryScene?
     
     @IBOutlet weak var videoView: UIView!
+    @IBOutlet weak var videoWidthConstraint: NSLayoutConstraint!
     
     private var player: AVPlayer?
     
@@ -23,13 +23,14 @@ class VideoCollectionViewCell: UICollectionViewCell {
     
     func play() {
         guard let video = video, let url = URL(string: video.videoUrl) else { return }
-        player = AVPlayer(url :  url)
+        player = AVPlayer(url: url)
         avpController.player = player
         
-        avpController.view.frame.size.height = videoView.frame.size.height
+        avpController.view.frame = videoView.bounds
         
-        avpController.view.frame.size.width = videoView.frame.size.width
-        
+        avpController.videoGravity = .resize
+        avpController.showsPlaybackControls = false
+                
         videoView.addSubview(avpController.view)
         player?.play()
     }

@@ -21,7 +21,7 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qpE-f8-nT1">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="RR7-kT-DPy">
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="RR7-kT-DPy">
                                     <size key="itemSize" width="375" height="603"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -60,21 +60,70 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="F2Q-Cd-PA5"/>
                                 </connections>
                             </collectionView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="jlK-cR-hzG">
+                                <rect key="frame" x="0.0" y="583" width="375" height="84"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="84" id="tfz-Bx-JP1"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="57A-xR-dUB">
+                                    <size key="itemSize" width="216" height="84"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="80" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="imageCell" id="pux-Em-1ja" customClass="ImageCollectionViewCell" customModule="MiniGallery" customModuleProvider="target">
+                                        <rect key="frame" x="80" y="0.0" width="216" height="84"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="216" height="84"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xYa-wi-oW4">
+                                                    <rect key="frame" x="48" y="0.0" width="120" height="84"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="120" id="0VK-v6-6NE"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                        </view>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="xYa-wi-oW4" firstAttribute="centerY" secondItem="pux-Em-1ja" secondAttribute="centerY" id="MP0-7d-5fU"/>
+                                            <constraint firstAttribute="bottom" secondItem="xYa-wi-oW4" secondAttribute="bottom" id="SkO-Dp-oj0"/>
+                                            <constraint firstItem="xYa-wi-oW4" firstAttribute="top" secondItem="pux-Em-1ja" secondAttribute="top" id="Zbb-dC-101"/>
+                                            <constraint firstItem="xYa-wi-oW4" firstAttribute="centerX" secondItem="pux-Em-1ja" secondAttribute="centerX" id="iSv-C3-2SH"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="imageView" destination="xYa-wi-oW4" id="QcO-IC-mzf"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="6GF-Ld-8Yw"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="7S4-cc-RE6"/>
+                                </connections>
+                            </collectionView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qpE-f8-nT1" secondAttribute="trailing" id="28j-fG-EBD"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="qpE-f8-nT1" secondAttribute="bottom" id="64e-cd-3dE"/>
                             <constraint firstItem="qpE-f8-nT1" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="EZf-aT-2Xc"/>
+                            <constraint firstItem="jlK-cR-hzG" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="FkE-q2-uKN"/>
+                            <constraint firstItem="jlK-cR-hzG" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="GOY-Wc-0xE"/>
                             <constraint firstItem="qpE-f8-nT1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="NrR-o3-uc8"/>
                             <constraint firstItem="qpE-f8-nT1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="WRZ-Dl-Qgu"/>
+                            <constraint firstItem="jlK-cR-hzG" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="e9M-aR-jyl"/>
                             <constraint firstItem="qpE-f8-nT1" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="qLP-R4-8gA"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="4R6-Qo-oS5"/>
                     <connections>
-                        <outlet property="collectionView" destination="qpE-f8-nT1" id="9yo-OC-phg"/>
+                        <outlet property="imageCollectionView" destination="jlK-cR-hzG" id="zp3-sY-R5b"/>
+                        <outlet property="videoCollectionView" destination="qpE-f8-nT1" id="1ne-SJ-zr2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

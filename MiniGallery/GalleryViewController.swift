@@ -10,47 +10,53 @@ import UIKit
 
 class GalleryViewController: UIViewController{
     
-    private var videos = [GalleryScene]()
+    private var scenes = [GalleryScene]()
     private var pageForDisplay = 0
     
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var imageCollectionView: UICollectionView!
+    @IBOutlet weak var videoCollectionView: UICollectionView!
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         updateLayout()
         if UIDevice.current.orientation == .portrait {
-            setVideoConstraints(width: collectionView.bounds.width)
+            setVideoConstraints(width: videoCollectionView.bounds.width)
         } else {
-            setVideoConstraints(width: collectionView.bounds.height)
+            setVideoConstraints(width: videoCollectionView.bounds.height)
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         updateLayout()
-        setVideoConstraints(width: collectionView.bounds.width)
+        setVideoConstraints(width: videoCollectionView.bounds.width)
         fetchGallery()
     }
     
     private func fetchGallery() {
         Networking.getGallery { [weak self] galleries in
-            self?.videos = galleries ?? []
+            self?.scenes = galleries ?? []
             DispatchQueue.main.async {
-                self?.collectionView.reloadData()
+                self?.videoCollectionView.reloadData()
+                self?.imageCollectionView.reloadData()
             }
         }
     }
     
     private func setVideoConstraints(width: CGFloat) {
-        (collectionView.visibleCells as? [VideoCollectionViewCell])?.forEach {
+        (videoCollectionView.visibleCells as? [VideoCollectionViewCell])?.forEach {
             $0.videoWidthConstraint.constant = width
         }
     }
     
     private func updateLayout() {
-        if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.itemSize = CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
-            flowLayout.minimumLineSpacing = 10
+        if let flowLayout = videoCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            flowLayout.itemSize = CGSize(width: videoCollectionView.bounds.width, height: videoCollectionView.bounds.height)
+        }
+        if let flowLayout = imageCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            let cellWidth = imageCollectionView.bounds.width / 2
+            flowLayout.itemSize = CGSize(width: cellWidth, height: imageCollectionView.bounds.height)
+            flowLayout.sectionInset = UIEdgeInsets.init(top: 0, left: cellWidth / 2, bottom: 0, right: cellWidth / 2)
         }
     }
 
@@ -59,35 +65,50 @@ class GalleryViewController: UIViewController{
 extension GalleryViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return videos.count
+        return scenes.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "videoCell", for: indexPath) as! VideoCollectionViewCell
-        let video = videos[indexPath.row]
-        cell.video = video
-        return cell
+        if collectionView == videoCollectionView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "videoCell", for: indexPath) as! VideoCollectionViewCell
+            cell.video = scenes[indexPath.row]
+            return cell
+        } else {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: indexPath) as! ImageCollectionViewCell
+            let imageUrl = scenes[indexPath.row].imageUrl
+            Networking.fetchImage(withURL: imageUrl) { image in
+                DispatchQueue.main.async {
+                    guard let image = image else {return}
+                    cell.imageView.image = image
+                }
+            }
+            return cell
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        print("will display \(indexPath.item)")
-        pageForDisplay = indexPath.item
-        (cell as! VideoCollectionViewCell).play()
+        if collectionView == videoCollectionView {
+            pageForDisplay = indexPath.item
+            (cell as! VideoCollectionViewCell).play()
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        print("did display \(indexPath.item)")
-        (cell as! VideoCollectionViewCell).stop()
+        if collectionView == videoCollectionView {
+            (cell as! VideoCollectionViewCell).stop()
+        }
     }
 }
 
 extension GalleryViewController: UICollectionViewDelegate {
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        
-        let pageWidth = Float((collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize.width + 10)
+
+        let collectionView = scrollView as! UICollectionView
+        let pageWidth = Float((collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize.width)
         let targetXContentOffset = Float(targetContentOffset.pointee.x)
-        let contentWidth = Float(collectionView!.contentSize.width)
+        let contentWidth = Float(collectionView.contentSize.width)
         var newPage = Float(pageForDisplay)
         
         if velocity.x == 0 {
@@ -107,42 +128,11 @@ extension GalleryViewController: UICollectionViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offset = scrollView.contentOffset.x
-        let itemWidth = (collectionView.collectionViewLayout as! UICollectionViewFlowLayout).itemSize.width
-        print("x offset : \(offset)")
-        print("itemWidth : \(itemWidth)")
+        if scrollView == videoCollectionView {
+            imageCollectionView.contentOffset = CGPoint(x: scrollView.contentOffset.x / 2, y: 0)
+        } else {
+            videoCollectionView.contentOffset = CGPoint(x: scrollView.contentOffset.x * 2, y: 0)
+        }
     }
     
 }
-
-extension UIView {
-    
-    func anchorToTop(top: NSLayoutYAxisAnchor? = nil, left: NSLayoutXAxisAnchor? = nil, bottom: NSLayoutYAxisAnchor? = nil, right: NSLayoutXAxisAnchor? = nil) {
-        
-        anchorWithConstantsToTop(top: top, left: left, bottom: bottom, right: right, topConstant: 0, leftConstant: 0, bottomConstant: 0, rightConstant: 0)
-    }
-    
-    func anchorWithConstantsToTop(top: NSLayoutYAxisAnchor? = nil, left: NSLayoutXAxisAnchor? = nil, bottom: NSLayoutYAxisAnchor? = nil, right: NSLayoutXAxisAnchor? = nil, topConstant: CGFloat = 0, leftConstant: CGFloat = 0, bottomConstant: CGFloat = 0, rightConstant: CGFloat = 0) {
-        
-        translatesAutoresizingMaskIntoConstraints = false
-        
-        if let top = top {
-            topAnchor.constraint(equalTo: top, constant: topConstant).isActive = true
-        }
-        
-        if let bottom = bottom {
-            bottomAnchor.constraint(equalTo: bottom, constant: -bottomConstant).isActive = true
-        }
-        
-        if let left = left {
-            leftAnchor.constraint(equalTo: left, constant: leftConstant).isActive = true
-        }
-        
-        if let right = right {
-            rightAnchor.constraint(equalTo: right, constant: -rightConstant).isActive = true
-        }
-        
-    }
-    
-}
-

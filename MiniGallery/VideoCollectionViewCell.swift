@@ -37,7 +37,6 @@ class VideoCollectionViewCell: UICollectionViewCell {
     
     func stop() {
         player?.pause()
-        player = nil
     }
     
 }

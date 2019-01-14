@@ -12,6 +12,7 @@ class GalleryViewController: UIViewController{
     
     private var scenes = [GalleryScene]()
     private var pageForDisplay = 0
+    private var activeScrollView: UIScrollView?
     
     @IBOutlet weak var imageCollectionView: UICollectionView!
     @IBOutlet weak var videoCollectionView: UICollectionView!
@@ -59,6 +60,20 @@ class GalleryViewController: UIViewController{
             flowLayout.sectionInset = UIEdgeInsets.init(top: 0, left: cellWidth / 2, bottom: 0, right: cellWidth / 2)
         }
     }
+    
+    private func scaleImages() {
+        let collectionWidth = Float(imageCollectionView.bounds.width)
+        let collectionCenter = imageCollectionView.bounds.width / 2
+        
+        imageCollectionView.indexPathsForVisibleItems.forEach {
+            let attributes = imageCollectionView.layoutAttributesForItem(at: $0)!
+            let cellFrame = imageCollectionView.convert(attributes.frame, to: nil)
+            let cellCenter = cellFrame.origin.x + (cellFrame.width / 2)
+            
+            let cell = imageCollectionView.cellForItem(at: $0) as! ImageCollectionViewCell
+            cell.scaleImageView(1 - fabsf(Float((cellCenter - collectionCenter))) / collectionWidth)
+        }
+    }
 
 }
 
@@ -91,6 +106,8 @@ extension GalleryViewController: UICollectionViewDataSource {
         if collectionView == videoCollectionView {
             pageForDisplay = indexPath.item
             (cell as! VideoCollectionViewCell).play()
+        } else {
+            (cell as! ImageCollectionViewCell).scaleImageView(0.5)
         }
     }
     
@@ -102,6 +119,10 @@ extension GalleryViewController: UICollectionViewDataSource {
 }
 
 extension GalleryViewController: UICollectionViewDelegate {
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        activeScrollView = scrollView
+    }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
 
@@ -122,17 +143,18 @@ extension GalleryViewController: UICollectionViewDelegate {
                 newPage = ceil(contentWidth / pageWidth) - 1.0
             }
         }
-        
         let point = CGPoint (x: CGFloat(newPage * pageWidth), y: targetContentOffset.pointee.y)
         targetContentOffset.pointee = point
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView == videoCollectionView {
+        guard scrollView == activeScrollView else { return }
+        if scrollView == videoCollectionView  {
             imageCollectionView.contentOffset = CGPoint(x: scrollView.contentOffset.x / 2, y: 0)
         } else {
             videoCollectionView.contentOffset = CGPoint(x: scrollView.contentOffset.x * 2, y: 0)
         }
+        scaleImages()
     }
     
 }

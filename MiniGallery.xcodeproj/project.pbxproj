@@ -64,19 +64,27 @@
 		B04AD61021E8229600F572D1 /* MiniGallery */ = {
 			isa = PBXGroup;
 			children = (
-				B04AD61121E8229600F572D1 /* AppDelegate.swift */,
-				B04AD61521E8229600F572D1 /* Main.storyboard */,
+				B0FF20F021ED0A4D00DD5186 /* Views */,
 				B04AD62721E9118300F572D1 /* GalleryViewController.swift */,
-				B04AD62921E91D0D00F572D1 /* VideoCollectionViewCell.swift */,
-				B0FF20EE21EC00F000DD5186 /* ImageCollectionViewCell.swift */,
 				B0FF20EC21EBF0AD00DD5186 /* MediaCache.swift */,
 				B04AD62321E8251400F572D1 /* GalleryModel.swift */,
 				B04AD62521E825A500F572D1 /* Networking.swift */,
 				B04AD61821E8229900F572D1 /* Assets.xcassets */,
-				B04AD61A21E8229900F572D1 /* LaunchScreen.storyboard */,
 				B04AD61D21E8229900F572D1 /* Info.plist */,
+				B04AD61121E8229600F572D1 /* AppDelegate.swift */,
 			);
 			path = MiniGallery;
+			sourceTree = "<group>";
+		};
+		B0FF20F021ED0A4D00DD5186 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B04AD61A21E8229900F572D1 /* LaunchScreen.storyboard */,
+				B04AD61521E8229600F572D1 /* Main.storyboard */,
+				B04AD62921E91D0D00F572D1 /* VideoCollectionViewCell.swift */,
+				B0FF20EE21EC00F000DD5186 /* ImageCollectionViewCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

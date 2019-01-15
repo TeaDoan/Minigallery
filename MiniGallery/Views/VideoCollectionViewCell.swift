@@ -23,9 +23,9 @@ class VideoCollectionViewCell: UICollectionViewCell {
     
     func play() {
         guard let video = video, let url = URL(string: video.videoUrl) else { return }
-        player = AVPlayer(url: url)
+        player = MediaCache.shared.videoPlayer(for: url)
         avpController.player = player
-        
+
         avpController.view.frame = videoView.bounds
         
         avpController.videoGravity = .resize

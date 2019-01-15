@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AVKit
+import AVFoundation
 
 class Networking {
   
@@ -35,8 +37,22 @@ class Networking {
       }.resume()
     }
     
-   
-     static func fetchImage(withURL : String, completion: @escaping ((UIImage?)-> Void)){
+    static func fetchVideoData(withURL: String, completion: @escaping ((Data?)-> Void)) {
+        guard let url = URL(string: withURL) else { completion(nil); return }
+        var request = URLRequest(url: url)
+        request.httpBody = nil
+        request.httpMethod = "GET"
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            if let error = error {
+                print("\(error)")
+                completion(nil)
+                return
+            }
+            completion(data)
+        }.resume()
+    }
+    
+    static func fetchImage(withURL : String, completion: @escaping ((UIImage?)-> Void)) {
         guard let url = URL(string: withURL) else {completion(nil); return}
         var request = URLRequest(url: url)
         request.httpBody = nil

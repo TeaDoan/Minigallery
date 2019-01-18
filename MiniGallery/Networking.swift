@@ -14,27 +14,27 @@ class Networking {
   
    static let baseURL = URL(string: "http://private-04a55-videoplayer1.apiary-mock.com/pictures")
     
-   static func getGallery(completion : @escaping ([GalleryScene]?) -> Void) {
-    guard let url = baseURL else {completion(nil);return}
-    var request = URLRequest(url: url)
-     request.httpBody = nil
-     request.httpMethod = "GET"
-    URLSession.shared.dataTask(with: request) { (data, response, err) in
-        if let err = err {
-            print("Fail sending request,\(err.localizedDescription)")
-            completion(nil)
-            return
-        }
-        guard let data = data else {completion(nil);return}
-        let jsonDecoder = JSONDecoder()
-        do {
-            let galleryData = try jsonDecoder.decode([GalleryScene].self, from: data)
-            completion(galleryData)
-            return
-        } catch let err {
-            print ("Fail getting back, \(err.localizedDescription)")
-        }
-      }.resume()
+    static func getGallery(completion : @escaping ([GalleryScene]?) -> Void) {
+        guard let url = baseURL else {completion(nil);return}
+        var request = URLRequest(url: url)
+        request.httpBody = nil
+        request.httpMethod = "GET"
+        URLSession.shared.dataTask(with: request) { (data, response, err) in
+            if let err = err {
+                print("Fail sending request,\(err.localizedDescription)")
+                completion(nil)
+                return
+            }
+            guard let data = data else {completion(nil);return}
+            let jsonDecoder = JSONDecoder()
+            do {
+                let galleryData = try jsonDecoder.decode([GalleryScene].self, from: data)
+                completion(galleryData)
+                return
+            } catch let err {
+                print ("Fail getting back, \(err.localizedDescription)")
+            }
+            }.resume()
     }
     
     static func fetchVideoData(withURL: String, completion: @escaping ((Data?)-> Void)) {
